@@ -62,37 +62,40 @@ namespace bin_soubory_ukol2
             int max = int.MinValue;
             int pozice_max = 0;
 
-            for (int i = 0; i < textBox2.Lines.Count(); i++)
+            try
             {
-                if (textBox2.Lines[i] == "")
+                for (int i = 0; i < textBox2.Lines.Count(); i++)
                 {
-                    MessageBox.Show("Prázdný řádek!");
-                }
-                else
-                {
+
                     if (max < Convert.ToInt32(textBox2.Lines[i]))
                     {
                         max = Convert.ToInt32(textBox2.Lines[i]);
                         pozice_max = i;
                     }
-                }
-            }
 
-            for (int i = 0; i < textBox2.Lines.Count(); i++)
-            {
-                if (i == pozice_max)
-                {
-                    bw.Write(textBox2.Lines[textBox2.Lines.Count() - 1] + Environment.NewLine);
                 }
-                else if (i == (textBox2.Lines.Count() - 1))
+
+                for (int i = 0; i < textBox2.Lines.Count(); i++)
                 {
-                    bw.Write(max + Environment.NewLine);
-                }
-                else
-                {
-                    bw.Write(textBox2.Lines[i] + Environment.NewLine);
+                    if (i == pozice_max)
+                    {
+                        bw.Write(textBox2.Lines[textBox2.Lines.Count() - 1] + Environment.NewLine);
+                    }
+                    else if (i == (textBox2.Lines.Count() - 1))
+                    {
+                        bw.Write(max + Environment.NewLine);
+                    }
+                    else
+                    {
+                        bw.Write(textBox2.Lines[i] + Environment.NewLine);
+                    }
                 }
             }
+            catch
+            {
+                MessageBox.Show("Před pokračováním je potřeba smazat prázdný řádek v textboxu2. (nepřišel jsem na to jak to obejít)");
+            }
+            
 
             fs.Close();
             bw.Close();
@@ -131,13 +134,12 @@ namespace bin_soubory_ukol2
 
             while (br.BaseStream.Position < br.BaseStream.Length)
             {
-                if (prvocislo(Convert.ToInt32(br.ReadString())))
+                string cislo = br.ReadString();
+                if (prvocislo(Convert.ToInt32(cislo)))
                 {
-                    string cislo = br.ReadString();
                     bw.Write(Convert.ToInt32(cislo) + Environment.NewLine);
                     sw.Write(Convert.ToInt32(cislo) + Environment.NewLine);
                 }
-                //sw.Write(cislo + Environment.NewLine);
             }
             sw.Close();
 
@@ -160,33 +162,15 @@ namespace bin_soubory_ukol2
 
         private bool prvocislo(int cislo)
         {
-            /*if (cislo <= 1)
-            {
-                return false;
-            }
-            if (cislo == 2)
-            {
-                return true;
-            }
-            if (cislo % 2 == 0)
-            {
-                return false;
-            }
-
-            var cislo2 = (int)Math.Floor(Math.Sqrt(cislo));
-
-            for (int i = 3; i <= cislo2; i += 2)
-            {
-                if (cislo % i == 0)
-                {
-                    return false;
-                }
-            }
-            return true;*/
 
             if (cislo == 1 || cislo == 2)
             {
                 return true;
+            }
+
+            if (cislo == 4)
+            {
+                return false;
             }
 
             for (int i = 2; i < (cislo / 2); i++)
