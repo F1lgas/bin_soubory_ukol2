@@ -133,8 +133,9 @@ namespace bin_soubory_ukol2
             {
                 if (prvocislo(Convert.ToInt32(br.ReadString())))
                 {
-                    bw.Write(Convert.ToInt32(br.ReadString()) + Environment.NewLine);
-                    sw.WriteLine(br.ReadString());
+                    string cislo = br.ReadString();
+                    bw.Write(Convert.ToInt32(cislo) + Environment.NewLine);
+                    sw.Write(Convert.ToInt32(cislo) + Environment.NewLine);
                 }
                 //sw.Write(cislo + Environment.NewLine);
             }
@@ -146,7 +147,7 @@ namespace bin_soubory_ukol2
             while (br2.BaseStream.Position < br2.BaseStream.Length)
             {
                 textBox4.AppendText(br2.ReadString());
-                textBox5.AppendText(sr.ReadLine());
+                textBox5.AppendText(sr.ReadLine() + Environment.NewLine);
             }
 
             fs.Close();
