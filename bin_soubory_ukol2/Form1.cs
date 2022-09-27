@@ -110,5 +110,92 @@ namespace bin_soubory_ukol2
             fs2.Close();
             bw.Close();
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            textBox4.Clear();
+            textBox5.Clear();
+
+            FileStream fs = new FileStream(@"..\..\cisla.dat", FileMode.Open, FileAccess.Read);
+
+            BinaryReader br = new BinaryReader(fs);
+
+            FileStream fs2 = new FileStream(@"..\..\prvocisla.dat", FileMode.Create, FileAccess.ReadWrite);
+
+            BinaryWriter bw = new BinaryWriter(fs2);
+            BinaryReader br2 = new BinaryReader(fs2);
+
+            StreamWriter sw = new StreamWriter(@"..\..\prvocisla.txt", false);
+
+            br.BaseStream.Position = 0;
+
+            while (br.BaseStream.Position < br.BaseStream.Length)
+            {
+                if (prvocislo(Convert.ToInt32(br.ReadString())))
+                {
+                    bw.Write(Convert.ToInt32(br.ReadString()) + Environment.NewLine);
+                    sw.WriteLine(br.ReadString());
+                }
+                //sw.Write(cislo + Environment.NewLine);
+            }
+            sw.Close();
+
+            StreamReader sr = new StreamReader(@"..\..\prvocisla.txt");
+
+            br2.BaseStream.Position = 0;
+            while (br2.BaseStream.Position < br2.BaseStream.Length)
+            {
+                textBox4.AppendText(br2.ReadString());
+                textBox5.AppendText(sr.ReadLine());
+            }
+
+            fs.Close();
+            br.Close();
+            fs2.Close();
+            bw.Close();
+            br2.Close();
+            sr.Close();
+        }
+
+        private bool prvocislo(int cislo)
+        {
+            /*if (cislo <= 1)
+            {
+                return false;
+            }
+            if (cislo == 2)
+            {
+                return true;
+            }
+            if (cislo % 2 == 0)
+            {
+                return false;
+            }
+
+            var cislo2 = (int)Math.Floor(Math.Sqrt(cislo));
+
+            for (int i = 3; i <= cislo2; i += 2)
+            {
+                if (cislo % i == 0)
+                {
+                    return false;
+                }
+            }
+            return true;*/
+
+            if (cislo == 1 || cislo == 2)
+            {
+                return true;
+            }
+
+            for (int i = 2; i < (cislo / 2); i++)
+            {
+                if (cislo % i == 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }
